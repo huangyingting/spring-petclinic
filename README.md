@@ -11,6 +11,16 @@ Run `./gradlew bootBuildImage` or `./mvnw -DskipTests spring-boot:build-image`
 
 A github workflow .github/workflows/gradle-build.yml is also added to push the image supports application insights into ghcr.io registry.
 
+To test application insights intergration, run
+```
+docker run --rm -d -p 8080:8080 -e APPLICATIONINSIGHTS_CONNECTION_STRING="GET_IT_FROM_AZURE_APPLICATION_INSIGHTS" spring-petclinic
+```
+
+## Azure load testing
+```shell
+jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t petclinic_test_plan.jmx
+```
+
 ## Understanding the Spring Petclinic application with a few diagrams
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
 
