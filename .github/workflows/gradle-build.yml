@@ -27,7 +27,7 @@ jobs:
         with:
           java-version: ${{matrix.java}}
           distribution: 'adopt'
-          # cache: gradle
+          cache: gradle
 
       - name: Login container registry
         uses: docker/login-action@v2
@@ -35,9 +35,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
 
       - name: Execute Gradle bootBuildImage
         run: ./gradlew bootBuildImage --no-daemon --imageName=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
