@@ -18,7 +18,7 @@ docker run --rm -d -p 8080:8080 -e APPLICATIONINSIGHTS_CONNECTION_STRING="GET_IT
 
 ## Azure load testing
 ```shell
-jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t petclinic_test_plan.jmx
+jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t src/test/jmeter/petclinic_test_plan.jmx
 ```
 
 ## K6 load testing
@@ -59,7 +59,7 @@ services:
 docker compose up -d prometheus grafana
 K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write
 K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
-k6 run -o experimental-prometheus-rw petclinic.js
+k6 run -o experimental-prometheus-rw src/test/k6/petclinic.js
 ```
 
 ## Understanding the Spring Petclinic application with a few diagrams
