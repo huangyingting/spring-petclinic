@@ -1,7 +1,7 @@
 import { sleep, group } from 'k6'
 import http from 'k6/http';
 
-const BASE_URL = 'https://petclinic.redsand-9dba3237.southeastasia.azurecontainerapps.io'
+const BASE_URL = 'YOUR_PETCLINIC_APP_URL'
 
 export const options = {
   thresholds: { http_req_duration: ['p(99)<600', 'p(95)<300'], http_req_failed: ['rate<0.1'] },
