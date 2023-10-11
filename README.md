@@ -21,6 +21,47 @@ docker run --rm -d -p 8080:8080 -e APPLICATIONINSIGHTS_CONNECTION_STRING="GET_IT
 jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t petclinic_test_plan.jmx
 ```
 
+## K6 load testing
+Create a docker-compose.yml with below content
+```yaml
+version: '3.8'
+
+networks:
+  k6:
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    command:
+      - --web.enable-remote-write-receiver
+      - --enable-feature=native-histograms
+      - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - k6
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:10.1.2
+    networks:
+      - k6
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/
+```
+
+```shell
+docker compose up -d prometheus grafana
+K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write
+K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
+k6 run -o experimental-prometheus-rw petclinic.js
+```
+
 ## Understanding the Spring Petclinic application with a few diagrams
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
 
