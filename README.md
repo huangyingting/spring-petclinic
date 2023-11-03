@@ -17,6 +17,14 @@ docker run --rm -d -p 8080:8080 -e APPLICATIONINSIGHTS_CONNECTION_STRING="GET_IT
 ```
 
 ## Azure load testing
+### Create a test application
+```shell
+SUFFIX=$(cat /dev/urandom | tr -dc '0-9' | fold -w 6 | head -n 1)
+az group create -n petclinic-$SUFFIX -l southeastasia
+az containerapp env create -n petclinic -g petclinic-$SUFFIX -l southeastasia
+az containerapp create -n petclinic -g petclinic-$SUFFIX  --environment petclinic -i ghcr.io/huangyingting/spring-petclinic:latest --cpu 0.5 --memory 1.0Gi --target-port 8080 --ingress external --query properties.configuration.ingress.fqdn
+```
+### JMeter local test
 ```shell
 jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t src/test/jmeter/petclinic_test_plan.jmx
 ```
