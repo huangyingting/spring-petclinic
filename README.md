@@ -17,8 +17,21 @@ docker run --rm -d -p 8080:8080 -e APPLICATIONINSIGHTS_CONNECTION_STRING="GET_IT
 ```
 
 ## Azure load testing
+Change directory to src/test/jmeter, follow [Use JMeter user properties with Azure Load Testing](https://learn.microsoft.com/en-us/azure/load-testing/how-to-configure-user-properties?tabs=portal) 
+- Update the values in petclinic_test_plan.properties
+- Upload petclinic_test_plan.jmx and petclinic_test_plan.properties to Azure load testing and run the test
+
+Run jmeter locally
 ```shell
 jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t src/test/jmeter/petclinic_test_plan.jmx
+```
+
+## Microsoft playwright testing
+Change directory to src/test/playwright, rename .env.example to .env and update the values accordingly
+```shell
+npm install
+npx playwright test --config=playwright.service.config.ts --workers=10
+npx playwright show-report
 ```
 
 ## K6 load testing
