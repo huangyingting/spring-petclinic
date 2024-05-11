@@ -35,6 +35,8 @@ Run jmeter locally
 jmeter -Jthreads=4 -Jhost={FQDN} -Jprotocol={http|https} -Jport={80|443} -n -t src/test/jmeter/petclinic_test_plan.jmx
 ```
 
+The repo also has a github action to run load testing from workflow, check .github/workflows/alt.yml for details
+
 ## Microsoft playwright testing
 Change directory to src/test/playwright, rename .env.example to .env and update the values accordingly
 ```shell
