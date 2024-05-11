@@ -1,0 +1,10 @@
+version: v0.1
+testId: petclinic_test_plan_udv
+displayName: PetClinic Load Testing
+description: PetClinic Load Testing
+testPlan: petclinic_test_plan_udv.jmx
+testType: JMX
+engineInstances: 1
+failureCriteria:
+  - avg(response_time_ms) > 1000
+  - percentage(error) > 50

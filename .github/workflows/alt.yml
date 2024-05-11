@@ -1,0 +1,32 @@
+# File: .github/workflows/workflow.yml
+
+on:
+  workflow_dispatch:
+
+jobs:
+  loadtest:
+    name: PetClinic Load Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Actions 
+        uses: actions/checkout@v2
+          
+      - name: Login to Azure
+        uses: azure/login@v1
+        continue-on-error: false
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      - name: 'Azure Load Testing'
+        uses: azure/load-testing@v1
+        with:
+          loadTestConfigFile: src/test/jmeter/petclinic_test_plan_udv.yaml
+          loadTestResource: ${{ env.ALT_RESOURCE }}
+          resourceGroup: ${{ env.ALT_RESOURCE_GROUP }}
+          env: |
+            [
+                {
+                "name": "UDV_PETCLINIC_HOST",
+                "value": "${{ env.UDV_PETCLINIC_HOST }}"
+                }
+            ]          
