@@ -21,12 +21,12 @@ jobs:
         uses: azure/load-testing@v1
         with:
           loadTestConfigFile: src/test/jmeter/petclinic_test_plan_udv.yaml
-          loadTestResource: ${{ env.ALT_RESOURCE }}
-          resourceGroup: ${{ env.ALT_RESOURCE_GROUP }}
+          loadTestResource: ${{ vars.ALT_RESOURCE }}
+          resourceGroup: ${{ vars.ALT_RESOURCE_GROUP }}
           env: |
             [
                 {
                 "name": "UDV_PETCLINIC_HOST",
-                "value": "${{ env.UDV_PETCLINIC_HOST }}"
+                "value": "${{ vars.UDV_PETCLINIC_HOST }}"
                 }
             ]          
