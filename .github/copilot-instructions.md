@@ -1,0 +1,2 @@
+When writing test cases, always use mockito to create mocks for dependencies.
+When writing test cases, ensure that you cover all scenarios. Use descriptive names for test methods to clarify their purpose.
